@@ -10,12 +10,19 @@ interface Product {
   name: string;
   slug: string;
   description?: string;
+  shortDescription?: string;
   price: number;
   oldPrice?: number;
+  discount?: number;
   category: string;
   brand?: string;
+  sku?: string;
+  customCode?: string;
   stock: number;
   images: string[];
+  features?: string[];
+  specs?: Record<string, Record<string, string>>;
+  reviews?: { rating: number; count: number };
   isFeatured: boolean;
   isBestSeller: boolean;
 }
@@ -28,6 +35,16 @@ const CATEGORY_LABELS: Record<string, string> = {
   accessories: "إكسسوارات",
   home_devices: "أجهزة منزلية",
   air_conditioners: "مكيفات",
+  بكجات: "بكجات وعروض خاصة",
+  furniture: "أثاث",
+};
+
+const SPEC_KEYS: Record<string, string> = {
+  desk: "مقاسات المكتب",
+  chair: "مقاسات الكرسي",
+  width: "العرض",
+  depth: "العمق",
+  height: "الارتفاع",
 };
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -62,7 +79,7 @@ export default function ProductDetailsPage() {
   const [activeImage, setActiveImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState<"description" | "features" | "specs">("description");
   const [zoomed, setZoomed] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
   const imgRef = useRef<HTMLDivElement>(null);
@@ -139,7 +156,10 @@ export default function ProductDetailsPage() {
   }
 
   const descSections = product.description ? parseDescription(product.description) : [];
-  const discount = product.oldPrice ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
+  const discount = product.discount ||
+    (product.oldPrice ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0);
+  const tamaraInstallment = Math.round(product.price / 4);
+  const loyaltyPoints = product.price;
 
   return (
     <>
@@ -260,11 +280,36 @@ export default function ProductDetailsPage() {
                   {product.name}
                 </h1>
 
+                {/* Short Description */}
+                {product.shortDescription && (
+                  <p className="text-sm text-[#45464d] leading-relaxed">{product.shortDescription}</p>
+                )}
+
+                {/* Rating */}
+                {product.reviews && (
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-0.5">
+                      {[1,2,3,4,5].map((s) => (
+                        <span key={s} className={`material-symbols-outlined text-[16px] ${
+                          s <= Math.round(product.reviews!.rating) ? "text-[#f4b400]" : "text-[#e0e3e5]"
+                        }`} style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                      ))}
+                    </div>
+                    <span className="text-sm text-[#45464d]">{product.reviews.rating.toFixed(1)}</span>
+                    <span className="text-xs text-[#76777d]">({product.reviews.count} تقييم)</span>
+                  </div>
+                )}
+
                 {/* Price Card */}
                 <div className="relative bg-gradient-to-br from-[#131b2e] to-[#3f465c] rounded-2xl p-6 overflow-hidden">
                   <div className="absolute top-0 left-0 w-32 h-32 bg-[#fed488]/10 rounded-full -translate-x-1/2 -translate-y-1/2" />
                   <div className="absolute bottom-0 right-0 w-24 h-24 bg-[#fed488]/5 rounded-full translate-x-1/3 translate-y-1/3" />
                   <div className="relative">
+                    {discount > 0 && (
+                      <span className="inline-block text-[11px] font-bold text-[#fed488] bg-[#fed488]/15 px-2.5 py-1 rounded-md mb-2">
+                        مخفض {discount}% خصم
+                      </span>
+                    )}
                     <div className="flex items-baseline gap-2">
                       <span className="text-4xl font-bold text-white">{product.price.toLocaleString()}</span>
                       <span className="text-lg text-white/60 font-medium">ر.س</span>
@@ -279,6 +324,28 @@ export default function ProductDetailsPage() {
                     )}
                     <p className="text-[11px] text-white/30 mt-3">شامل ضريبة القيمة المضافة</p>
                   </div>
+                </div>
+
+                {/* Tamara Installments */}
+                <div className="flex items-center gap-3 bg-white border border-[#e0e3e5] rounded-xl px-4 py-3">
+                  <div className="w-8 h-8 bg-[#3d9970]/10 rounded-lg flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined text-[18px] text-[#3d9970]">splitscreen</span>
+                  </div>
+                  <p className="text-sm text-[#45464d]">
+                    قسّم على{" "}
+                    <span className="font-bold text-[#191c1e]">4 دفعات</span> بقيمة{" "}
+                    <span className="font-bold text-[#191c1e]">{tamaraInstallment} ر.س</span>{" "}
+                    بدون فوائد —{" "}
+                    <span className="text-[#3d9970] font-medium">متوافق مع الشريعة</span>
+                  </p>
+                </div>
+
+                {/* Loyalty Points */}
+                <div className="flex items-center gap-3 bg-[#fed488]/10 border border-[#fed488]/40 rounded-xl px-4 py-3">
+                  <span className="material-symbols-outlined text-[20px] text-[#775a19]" style={{ fontVariationSettings: "'FILL' 1" }}>rewarded_ads</span>
+                  <p className="text-sm text-[#775a19] font-medium">
+                    ستحصل على <span className="font-bold">+{loyaltyPoints}</span> نقطة ولاء مع هذا الشراء
+                  </p>
                 </div>
 
                 {/* Stock */}
@@ -343,6 +410,14 @@ export default function ProductDetailsPage() {
                   </div>
                 )}
 
+                {/* SKU */}
+                {(product.customCode || product.sku) && (
+                  <p className="text-xs text-[#76777d]">
+                    كود المنتج:{" "}
+                    <span className="font-mono font-semibold text-[#45464d]">{product.customCode || product.sku}</span>
+                  </p>
+                )}
+
                 {/* Trust Badges */}
                 <div className="border-t border-[#e0e3e5] pt-6 mt-6">
                   <div className="grid grid-cols-2 gap-3">
@@ -369,40 +444,95 @@ export default function ProductDetailsPage() {
           </div>
 
           {/* Product Details Tabs */}
-          {descSections.length > 0 && (
+          {(descSections.length > 0 || (product.features && product.features.length > 0) || (product.specs && Object.keys(product.specs).length > 0)) && (
             <section className="mt-16">
-              {/* Tab Headers */}
               <div className="flex gap-1 border-b border-[#e0e3e5] overflow-x-auto">
-                {descSections.map((section, i) => (
+                {descSections.length > 0 && (
                   <button
-                    key={i}
-                    onClick={() => setActiveTab(i)}
+                    onClick={() => setActiveTab("description")}
                     className={`px-5 py-3.5 text-sm font-medium whitespace-nowrap transition-all relative ${
-                      activeTab === i
-                        ? "text-[#131b2e]"
-                        : "text-[#76777d] hover:text-[#45464d]"
+                      activeTab === "description" ? "text-[#131b2e]" : "text-[#76777d] hover:text-[#45464d]"
                     }`}
                   >
-                    {section.title}
-                    {activeTab === i && (
-                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#131b2e] rounded-t-full" />
-                    )}
+                    الوصف
+                    {activeTab === "description" && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#131b2e] rounded-t-full" />}
                   </button>
-                ))}
+                )}
+                {product.features && product.features.length > 0 && (
+                  <button
+                    onClick={() => setActiveTab("features")}
+                    className={`px-5 py-3.5 text-sm font-medium whitespace-nowrap transition-all relative ${
+                      activeTab === "features" ? "text-[#131b2e]" : "text-[#76777d] hover:text-[#45464d]"
+                    }`}
+                  >
+                    المميزات
+                    {activeTab === "features" && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#131b2e] rounded-t-full" />}
+                  </button>
+                )}
+                {product.specs && Object.keys(product.specs).length > 0 && (
+                  <button
+                    onClick={() => setActiveTab("specs")}
+                    className={`px-5 py-3.5 text-sm font-medium whitespace-nowrap transition-all relative ${
+                      activeTab === "specs" ? "text-[#131b2e]" : "text-[#76777d] hover:text-[#45464d]"
+                    }`}
+                  >
+                    المواصفات
+                    {activeTab === "specs" && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#131b2e] rounded-t-full" />}
+                  </button>
+                )}
               </div>
 
-              {/* Tab Content */}
               <div className="bg-white rounded-b-2xl rounded-tr-2xl border border-t-0 border-[#e0e3e5] p-6 sm:p-8">
-                <ul className="space-y-3">
-                  {descSections[activeTab]?.items.map((item, j) => (
-                    <li key={j} className="flex items-start gap-3 text-sm text-[#45464d] leading-relaxed">
-                      <span className="w-5 h-5 rounded-full bg-[#131b2e]/5 flex items-center justify-center shrink-0 mt-0.5">
-                        <span className="material-symbols-outlined text-[12px] text-[#131b2e]">check</span>
-                      </span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                {activeTab === "description" && (
+                  <ul className="space-y-3">
+                    {descSections.flatMap((s) => s.items).map((item, j) => (
+                      <li key={j} className="flex items-start gap-3 text-sm text-[#45464d] leading-relaxed">
+                        <span className="w-5 h-5 rounded-full bg-[#131b2e]/5 flex items-center justify-center shrink-0 mt-0.5">
+                          <span className="material-symbols-outlined text-[12px] text-[#131b2e]">check</span>
+                        </span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {activeTab === "features" && product.features && (
+                  <ul className="space-y-3">
+                    {product.features.map((f, i) => (
+                      <li key={i} className="flex items-start gap-3 text-sm text-[#45464d] leading-relaxed">
+                        <span className="w-5 h-5 rounded-full bg-[#fed488]/20 flex items-center justify-center shrink-0 mt-0.5">
+                          <span className="material-symbols-outlined text-[12px] text-[#775a19]">check</span>
+                        </span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {activeTab === "specs" && product.specs && (
+                  <div className="space-y-6">
+                    {Object.entries(product.specs).map(([groupKey, groupVal]) => (
+                      <div key={groupKey}>
+                        <h3 className="text-sm font-bold text-[#191c1e] mb-3">
+                          {SPEC_KEYS[groupKey] || groupKey}
+                        </h3>
+                        <div className="rounded-xl border border-[#e0e3e5] overflow-hidden">
+                          {Object.entries(groupVal).map(([k, v], idx, arr) => (
+                            <div
+                              key={k}
+                              className={`flex items-center justify-between px-4 py-3 text-sm ${
+                                idx % 2 === 0 ? "bg-[#f7f9fb]" : "bg-white"
+                              } ${idx < arr.length - 1 ? "border-b border-[#e0e3e5]" : ""}`}
+                            >
+                              <span className="text-[#76777d]">{SPEC_KEYS[k] || k}</span>
+                              <span className="font-semibold text-[#191c1e]">{v}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </section>
           )}

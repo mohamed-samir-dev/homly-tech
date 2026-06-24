@@ -144,7 +144,7 @@ export default function CartPage() {
 
                 <div className="flex items-center gap-3 bg-surface-container-low p-4 rounded-lg border border-outline-variant/30">
                   <span className="material-symbols-outlined text-secondary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-                  <p className="text-[14px] leading-[20px] text-secondary">ضمان لمدة سنتين على جميع الأجهزة</p>
+                  <p className="text-[14px] leading-[20px] text-secondary">ضمان الجودة على جميع المفروشات</p>
                 </div>
               </div>
             </aside>

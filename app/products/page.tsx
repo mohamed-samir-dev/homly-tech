@@ -55,14 +55,19 @@ function ProductsContent() {
   }, [searchParams]);
 
   useEffect(() => {
-    fetch(`${API_URL}/api/products`)
+    const params = new URLSearchParams({ limit: "200" });
+    if (activeCategory !== "all") params.set("category", activeCategory);
+    if (searchQuery.trim()) params.set("q", searchQuery.trim());
+
+    setLoading(true);
+    fetch(`${API_URL}/api/products?${params}`)
       .then((res) => res.json())
       .then((data) => {
-        setProducts(data.data || data.products || data || []);
+        setProducts(data.data || []);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, []);
+  }, [activeCategory, searchQuery]);
 
   const handleAdd = (e: React.MouseEvent, product: Product) => {
     e.preventDefault();
@@ -79,11 +84,9 @@ function ProductsContent() {
     setTimeout(() => setAddedId(null), 1500);
   };
 
-  const filtered = products.filter((p) => {
-    const matchCategory = activeCategory === "all" || p.category === activeCategory;
-    const matchSearch = p.name.includes(searchQuery) || p.brand?.includes(searchQuery);
-    return matchCategory && matchSearch;
-  });
+  const filtered = searchQuery
+    ? products.filter((p) => p.name.includes(searchQuery) || p.brand?.includes(searchQuery))
+    : products;
 
   return (
     <>

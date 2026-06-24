@@ -24,16 +24,6 @@ const CATEGORY_LABELS: Record<string, string> = {
   living_room: "غرفة المعيشة",
   bedroom: "غرفة النوم",
   dining: "غرفة الطعام",
-  office: "أثاث المكتب",
-  outdoor: "أثاث خارجي",
-  decor: "ديكور وإكسسوارات",
-  packages: "بكجات وعروض خاصة",
-  furniture: "أثاث",
-  pillows_bedding: "وسائد ومفروشات",
-  air_conditioners: "مكيفات",
-  cameras: "كاميرات",
-  home_devices: "أجهزة منزلية",
-  tvs: "تلفزيونات",
 };
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";

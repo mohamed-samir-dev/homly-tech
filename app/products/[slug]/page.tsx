@@ -28,15 +28,13 @@ interface Product {
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
-  laptops: "حواسيب محمولة",
-  tvs: "شاشات وتلفزيونات",
-  printers: "طابعات",
-  cameras: "كاميرات",
-  accessories: "إكسسوارات",
-  home_devices: "أجهزة منزلية",
-  air_conditioners: "مكيفات",
-  بكجات: "بكجات وعروض خاصة",
-  furniture: "أثاث",
+  living_room: "غرفة المعيشة",
+  bedroom: "غرفة النوم",
+  dining: "غرفة الطعام",
+  office: "أثاث المكتب",
+  outdoor: "أثاث خارجي",
+  decor: "ديكور وإكسسوارات",
+  packages: "بكجات وعروض خاصة",
 };
 
 const SPEC_KEYS: Record<string, string> = {

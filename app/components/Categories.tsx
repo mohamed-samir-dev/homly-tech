@@ -1,24 +1,24 @@
 const categories = [
   {
-    name: "تكييفات",
-    image: "/taq.webp",
-    slug: "air_conditioners",
-    desc: "أفضل التكييفات بأسعار منافسة",
-    icon: "ac_unit",
-  },
-  {
-    name: "أجهزة منزلية",
+    name: "غرفة المعيشة",
     image: "/home.webp",
-    slug: "home_devices",
-    desc: "كل ما يحتاجه منزلك",
-    icon: "kitchen",
+    slug: "living_room",
+    desc: "أثاث وديكور غرفة المعيشة",
+    icon: "weekend",
   },
   {
-    name: "اكسسوارات",
-    image: "/com.webp",
-    slug: "accessories",
-    desc: "اكسسوارات متنوعة وعصرية",
-    icon: "headphones",
+    name: "غرفة النوم",
+    image: "/hero.webp",
+    slug: "bedroom",
+    desc: "طقم نوم ومراتب فاخرة",
+    icon: "bed",
+  },
+  {
+    name: "الديكور والإكسسوارات",
+    image: "/taq.webp",
+    slug: "decor",
+    desc: "لمسات جمالية تكمل منزلك",
+    icon: "home_work",
   },
 ];
 

@@ -4,9 +4,9 @@ export default function Footer() {
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 md:py-12">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 pb-8 md:pb-10 border-b border-[#1E90FF]/20">
           <div className="col-span-2 lg:col-span-1">
-            <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-3 md:mb-4">مؤسسة سهلناها التقنيه</h3>
+            <h3 className="text-base sm:text-lg md:text-xl font-bold text-white mb-3 md:mb-4">هوملي للمفروشات المنزلية</h3>
             <p className="text-white/50 leading-relaxed text-xs sm:text-sm">
-              وجهتكم الأولى لأحدث الأجهزة الإلكترونية والتقنيات المنزلية والمكتبية في المملكة العربية السعودية.
+              وجهتكم الأولى لأفخم المفروشات والأثاث المنزلي بتصاميم راقية تناسب كل ذوق وبأفضل الأسعار.
             </p>
             <a href="/commercial-register" className="mt-3 md:mt-4 bg-[#0F3D5E] rounded-lg p-2.5 sm:p-3 border border-[#1E90FF]/20 block hover:border-[#1E90FF]/50 transition-colors group">
               <div className="flex items-center gap-2">
@@ -21,7 +21,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-bold text-sm sm:text-base mb-3 md:mb-4">الروابط السريعة</h4>
             <ul className="space-y-2 sm:space-y-3">
-              <li><a className="text-white/50 hover:text-[#1E90FF] transition-colors text-xs sm:text-sm" href="/about">عن سهلناها</a></li>
+              <li><a className="text-white/50 hover:text-[#1E90FF] transition-colors text-xs sm:text-sm" href="/about">عن هوملي</a></li>
               <li><a className="text-white/50 hover:text-[#1E90FF] transition-colors text-xs sm:text-sm" href="/contact">اتصل بنا</a></li>
             </ul>
           </div>
@@ -56,7 +56,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-4 sm:pt-6 text-center text-xs sm:text-sm text-white/40">
-          © 2026 مؤسسة سهلناها التقنيه. جميع الحقوق محفوظة
+          © 2026 هوملي للمفروشات المنزلية. جميع الحقوق محفوظة
         </div>
       </div>
     </footer>

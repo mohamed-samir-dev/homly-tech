@@ -21,13 +21,13 @@ interface Product {
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
-  laptops: "حواسيب محمولة",
-  tvs: "شاشات وتلفزيونات",
-  printers: "طابعات",
-  cameras: "كاميرات",
-  accessories: "إكسسوارات",
-  home_devices: "أجهزة منزلية",
-  air_conditioners: "مكيفات",
+  living_room: "غرفة المعيشة",
+  bedroom: "غرفة النوم",
+  dining: "غرفة الطعام",
+  office: "أثاث المكتب",
+  outdoor: "أثاث خارجي",
+  decor: "ديكور وإكسسوارات",
+  packages: "بكجات وعروض خاصة",
 };
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -94,8 +94,8 @@ function ProductsContent() {
           <div className="absolute inset-0 bg-gradient-to-l from-[#775a19]/10 to-transparent" />
           <div className="absolute top-0 left-1/4 w-72 h-72 bg-[#775a19]/5 rounded-full blur-3xl" />
           <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">جميع المنتجات</h1>
-            <p className="text-white/50 text-sm sm:text-base">اكتشف مجموعتنا المتنوعة من أحدث الأجهزة الإلكترونية</p>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">جميع المفروشات</h1>
+            <p className="text-white/50 text-sm sm:text-base">اكتشف مجموعتنا المتنوعة من الأثاث والمفروشات المنزلية</p>
           </div>
         </div>
 

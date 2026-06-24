@@ -12,10 +12,10 @@ export default function Hero() {
       </div>
       <div className="relative z-10 flex flex-col justify-center items-start h-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-12 text-right">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[60px] lg:leading-[72px] font-bold text-white max-w-3xl mb-6 leading-tight tracking-tight">
-          منزلك يستحق الأفضل - تكنولوجيا الغد في مطبخك اليوم
+          اجعل منزلك تحفة فنية - مفروشات راقية تعكس ذوقك
         </h1>
         <p className="text-base sm:text-lg text-white/90 max-w-xl mb-12">
-          اكتشف مجموعتنا الحصرية من الأجهزة المنزلية الذكية التي تجمع بين التصميم العصري والأداء الفائق لتحويل روتينك اليومي إلى تجربة فاخرة.
+          اكتشف مجموعتنا الحصرية من المفروشات والأثاث المنزلي التي تجمع بين الأناقة والجودة العالية لتحويل منزلك إلى مكان الراحة والجمال.
         </p>
         <a
           href="/products"

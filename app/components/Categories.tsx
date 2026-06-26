@@ -1,93 +1,64 @@
+import Link from "next/link";
+import Image from "next/image";
+
 const categories = [
-  {
-    name: "غرفة المعيشة",
-    image: "/home.webp",
-    slug: "living_room",
-    desc: "أثاث وديكور غرفة المعيشة",
-    icon: "weekend",
-  },
-  {
-    name: "غرفة النوم",
-    image: "/hero.webp",
-    slug: "bedroom",
-    desc: "طقم نوم ومراتب فاخرة",
-    icon: "bed",
-  },
-  {
-    name: "الديكور والإكسسوارات",
-    image: "/taq.webp",
-    slug: "decor",
-    desc: "لمسات جمالية تكمل منزلك",
-    icon: "home_work",
-  },
+  { name: "غرفة النوم",    image: "/bed.webp",  slug: "bedroom",     icon: "bed",     desc: "طقم نوم ومراتب فاخرة" },
+  { name: "غرفة المعيشة", image: "/hero.webp",  slug: "living_room", icon: "weekend", desc: "أثاث وديكور عصري" },
+  { name: "غرفة الطعام",  image: "/food.webp",   slug: "dining",      icon: "dining",  desc: "طاولات وكراسي أنيقة" },
+  { name: "الأثاث المكتبي", image: "/tech.webp", slug: "office",      icon: "chair_alt", desc: "مكاتب وكراسي مريحة" },
 ];
 
 export default function Categories() {
   return (
-    <section dir="rtl" className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-12 py-16 sm:py-20">
-      <div className="text-center mb-10 sm:mb-14">
-        <h2 className="text-2xl sm:text-[30px] sm:leading-[38px] font-semibold text-[#191c1e] mb-3">تصفح حسب الفئة</h2>
-        <p className="text-[#45464d] text-sm sm:text-base max-w-md mx-auto">اختر الفئة المناسبة لك واكتشف أفضل المنتجات</p>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:h-[400px]">
-        {/* Large card */}
-        <a
-          href={`/products?category=${categories[0].slug}`}
-          className="md:col-span-2 relative rounded-xl overflow-hidden group cursor-pointer shadow-[0_12px_24px_rgba(20,30,50,0.04)] hover:shadow-[0_24px_48px_rgba(20,30,50,0.08)] transition-all"
-        >
-          <img
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 min-h-[240px]"
-            alt={categories[0].name}
-            src={categories[0].image}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          <div className="absolute bottom-0 right-0 left-0 p-6">
-            <span className="inline-flex items-center gap-2 bg-[#fed488] text-[#785a1a] text-xs font-medium px-3 py-1 rounded mb-3">
-              <span className="material-symbols-outlined text-sm">{categories[0].icon}</span>
-              {categories[0].name}
-            </span>
-            <h3 className="text-xl sm:text-2xl font-semibold text-white">{categories[0].desc}</h3>
-          </div>
-        </a>
+    <section dir="rtl" className="bg-[#f7f9fb] py-16 sm:py-20">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-12">
 
-        {/* Right column - two stacked cards */}
-        <a
-          href={`/products?category=${categories[1].slug}`}
-          className="relative rounded-xl overflow-hidden group cursor-pointer shadow-[0_12px_24px_rgba(20,30,50,0.04)] hover:shadow-[0_24px_48px_rgba(20,30,50,0.08)] transition-all min-h-[180px]"
-        >
-          <img
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            alt={categories[1].name}
-            src={categories[1].image}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          <div className="absolute bottom-0 right-0 left-0 p-5">
-            <span className="inline-flex items-center gap-2 bg-[#fed488] text-[#785a1a] text-xs font-medium px-3 py-1 rounded mb-2">
-              <span className="material-symbols-outlined text-sm">{categories[1].icon}</span>
-              {categories[1].name}
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-10 sm:mb-12">
+          <div>
+            <span className="inline-block text-[#775a19] text-xs font-medium tracking-widest uppercase mb-2 bg-[#fed488]/30 px-3 py-1 rounded-full">
+              الفئات
             </span>
-            <h3 className="text-lg font-semibold text-white">{categories[1].desc}</h3>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#131b2e]">تسوق حسب التصنيف</h2>
           </div>
-        </a>
+          <Link href="/products" className="text-sm text-[#775a19] font-medium hover:underline flex items-center gap-1">
+            عرض الكل
+            <span className="material-symbols-outlined text-sm">arrow_back</span>
+          </Link>
+        </div>
 
-        <a
-          href={`/products?category=${categories[2].slug}`}
-          className="relative rounded-xl overflow-hidden group cursor-pointer shadow-[0_12px_24px_rgba(20,30,50,0.04)] hover:shadow-[0_24px_48px_rgba(20,30,50,0.08)] transition-all min-h-[180px]"
-        >
-          <img
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            alt={categories[2].name}
-            src={categories[2].image}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          <div className="absolute bottom-0 right-0 left-0 p-5">
-            <span className="inline-flex items-center gap-2 bg-[#fed488] text-[#785a1a] text-xs font-medium px-3 py-1 rounded mb-2">
-              <span className="material-symbols-outlined text-sm">{categories[2].icon}</span>
-              {categories[2].name}
-            </span>
-            <h3 className="text-lg font-semibold text-white">{categories[2].desc}</h3>
-          </div>
-        </a>
+        {/* Grid — 2 cols mobile, 4 cols desktop */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {categories.map((cat) => (
+            <Link
+              key={cat.slug}
+              href={`/products?category=${cat.slug}`}
+              className="group relative rounded-2xl overflow-hidden flex flex-col justify-end"
+              style={{ aspectRatio: "3/4" }}
+            >
+              <Image
+                src={cat.image}
+                alt={cat.name}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                sizes="(max-width: 1024px) 50vw, 25vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1e]/85 via-[#0a0f1e]/25 to-transparent" />
+
+              <div className="relative p-4 sm:p-5">
+                <div className="w-9 h-9 rounded-xl bg-[#fed488] flex items-center justify-center mb-3 shadow-lg">
+                  <span className="material-symbols-outlined text-[#785a1a] text-lg">{cat.icon}</span>
+                </div>
+                <div className="text-white font-bold text-base sm:text-lg leading-tight">{cat.name}</div>
+                <div className="text-white/60 text-xs sm:text-sm mt-1">{cat.desc}</div>
+                <div className="mt-3 flex items-center gap-1 text-[#fed488] text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  تسوق الآن
+                  <span className="material-symbols-outlined text-sm">arrow_back</span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
   );

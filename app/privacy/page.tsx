@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import WhatsAppButton from "../components/WhatsAppButton";
 
 export const metadata = {
-  title: "سياسة الخصوصية | مؤسسة سهلناها التقنيه",
+  title: "سياسة الخصوصية | هوملي للمفروشات المنزلية",
 };
 
 const sections = [

@@ -3,8 +3,8 @@ import Footer from "../components/Footer";
 import WhatsAppButton from "../components/WhatsAppButton";
 
 export const metadata = {
-  title: "من نحن | هوملي للمفروشات المنزلية",
-  description: "تعرف على هوملي - وجهتكم الأولى لأفخم المفروشات والأثاث المنزلي في المملكة العربية السعودية",
+  title: "من نحن | سهلناها للمفروشات المنزلية",
+  description: "تعرف على سهلناها - وجهتكم الأولى لأفخم المفروشات والأثاث المنزلي في المملكة العربية السعودية",
 };
 
 export default function AboutPage() {
@@ -20,7 +20,7 @@ export default function AboutPage() {
           <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-12 text-center relative z-10">
             <span className="inline-block text-[#e9c176] text-sm font-medium tracking-[0.05em] uppercase mb-4">من نحن</span>
             <h1 className="text-3xl sm:text-4xl md:text-[60px] font-bold text-white leading-tight md:leading-[72px] tracking-tight mb-4">
-              هوملي للمفروشات المنزلية
+              سهلناها للمفروشات المنزلية
             </h1>
             <p className="text-[#e0e3e5] text-base sm:text-lg max-w-xl mx-auto leading-7">
               شريككم الموثوق في عالم الأثاث والمفروشات الفاخرة
@@ -33,7 +33,7 @@ export default function AboutPage() {
             <div className="lg:col-span-3 bg-white rounded-xl p-6 sm:p-8 shadow-[0_4px_12px_rgba(19,27,46,0.04)] border border-[#c6c6cd]/40">
               <h2 className="text-2xl font-semibold text-[#191c1e] mb-4">قصتنا</h2>
               <p className="text-[#45464d] leading-7 mb-4">
-                نحن هوملي، متجر سعودي متخصص في توفير أفخم المفروشات والأثاث المنزلي بأعلى معايير الجودة وأفضل الأسعار. نسعى لأن نكون الوجهة الأولى لكل من يريد تحويل منزله إلى مكان جمال وراحة.
+                نحن سهلناها، متجر سعودي متخصص في توفير أفخم المفروشات والأثاث المنزلي بأعلى معايير الجودة وأفضل الأسعار. نسعى لأن نكون الوجهة الأولى لكل من يريد تحويل منزله إلى مكان جمال وراحة.
               </p>
               <p className="text-[#45464d] leading-7">
                 نؤمن بأن المنزل الجميل يبدأ باختيار صحيح، ولذلك نحرص على تقديم تشكيلة متنوعة من المفروشات التي تناسب كل ذوق وكل ميزانية، مع ضمان الجودة والخدمة المتميزة.
@@ -47,7 +47,7 @@ export default function AboutPage() {
                   <div className="w-10 h-10 bg-[#131b2e] rounded-lg flex items-center justify-center">
                     <span className="material-symbols-outlined text-[#bec6e0] text-xl">store</span>
                   </div>
-                  <span className="text-[#191c1e] text-sm font-medium">هوملي للمفروشات المنزلية</span>
+                  <span className="text-[#191c1e] text-sm font-medium">سهلناها للمفروشات المنزلية</span>
                 </div>
                 <a href="/commercial-register" className="flex items-center gap-4 group">
                   <div className="w-10 h-10 bg-[#775a19] rounded-lg flex items-center justify-center">
@@ -74,7 +74,7 @@ export default function AboutPage() {
           <section className="mb-16">
             <div className="text-center mb-10">
               <span className="inline-block text-[#e9c176] text-xs font-medium tracking-[0.05em] uppercase mb-2">مميزاتنا</span>
-              <h2 className="text-2xl sm:text-[30px] font-semibold text-[#191c1e]">لماذا هوملي؟</h2>
+              <h2 className="text-2xl sm:text-[30px] font-semibold text-[#191c1e]">لماذا سهلناها؟</h2>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {[

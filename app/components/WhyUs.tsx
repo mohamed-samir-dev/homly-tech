@@ -41,7 +41,7 @@ export default function WhyUs() {
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
           <span className="inline-block text-[#fed488] text-xs font-medium tracking-widest uppercase mb-3 border border-[#fed488]/20 px-4 py-1.5 rounded-full">
-            لماذا هوملي؟
+            لماذا سهلناها؟
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-2">
             نقدم لك أكثر من مجرد أثاث

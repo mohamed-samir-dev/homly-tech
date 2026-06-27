@@ -14,8 +14,8 @@ const siteUrl = "https://homly.sa/";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "هوملي | مفروشات منزلية بأعلى جودة وأفضل سعر",
-    template: "%s | هوملي",
+    default: "سهلناها | مفروشات منزلية بأعلى جودة وأفضل سعر",
+    template: "%s | سهلناها",
   },
   description:
     "وجهتكم الأولى لأفخم المفروشات والأثاث المنزلي. نوفر لكم تصاميم راقية تناسب كل ذوق بأفضل الأسعار مع ضمان الجودة.",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "أثاث",
     "غرفة معيشة",
     "غرفة نوم",
-    "هوملي",
+    "سهلناها",
     "تسوق إلكتروني",
     "ديكور منزلي",
   ],
@@ -32,8 +32,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ar_SA",
     url: siteUrl,
-    siteName: "هوملي",
-    title: "هوملي | مفروشات منزلية بأعلى جودة وأفضل سعر",
+    siteName: "سهلناها",
+    title: "سهلناها | مفروشات منزلية بأعلى جودة وأفضل سعر",
     description:
       "وجهتكم الأولى لأفخم المفروشات والأثاث المنزلي. تصاميم راقية تناسب كل ذوق.",
     images: [
@@ -41,14 +41,14 @@ export const metadata: Metadata = {
         url: "https://homly.sa/og-image.png",
         width: 1200,
         height: 630,
-        alt: "هوملي",
+        alt: "سهلناها",
         type: "image/png",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "هوملي | مفروشات منزلية بأعلى جودة وأفضل سعر",
+    title: "سهلناها | مفروشات منزلية بأعلى جودة وأفضل سعر",
     description:
       "وجهتكم الأولى لأفخم المفروشات والأثاث المنزلي.",
     images: ["https://homly.sa/og-image.png"],

@@ -6,7 +6,7 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="col-span-2 lg:col-span-1">
-            <div className="text-white font-bold text-lg mb-1">هوملي</div>
+            <div className="text-white font-bold text-lg mb-1">سهلناها</div>
             <div className="text-[#fed488] text-xs mb-4 tracking-wide">للمفروشات المنزلية</div>
             <p className="text-white/40 text-sm leading-relaxed mb-5">
               وجهتكم الأولى لأفخم المفروشات والأثاث بتصاميم راقية تناسب كل ذوق.
@@ -83,7 +83,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <span className="text-xs text-white/30">© 2026 هوملي للمفروشات المنزلية. جميع الحقوق محفوظة</span>
+          <span className="text-xs text-white/30">© 2026 سهلناها للمفروشات المنزلية. جميع الحقوق محفوظة</span>
           <span className="text-xs text-white/20">صُنع بـ ❤️ في المملكة العربية السعودية</span>
         </div>
       </div>

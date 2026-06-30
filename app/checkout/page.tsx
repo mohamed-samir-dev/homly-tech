@@ -276,7 +276,7 @@ export default function CheckoutPage() {
                       </div>
                       <div className="text-right">
                         <div className="font-bold text-[#131b2e] text-sm sm:text-base">مدى / فيزا / ماستركارد</div>
-                        <div className="text-[#888] text-xs sm:text-sm mt-0.5">HyperPay — بطاقات البنوك السعودية</div>
+                        <div className="text-[#888] text-xs sm:text-sm mt-0.5">  بطاقات البنوك السعودية</div>
                       </div>
                     </div>
                     <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${

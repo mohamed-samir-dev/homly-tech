@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useCart } from "../context/CartContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -44,7 +45,7 @@ export default function CheckoutPage() {
   const [error, setError] = useState("");
   const [form, setForm] = useState({ customerName: "", phone: "", address: "", city: "الرياض", notes: "" });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const [paymentMethod, setPaymentMethod] = useState<"cash" | "online">("cash");
+  const [paymentMethod, setPaymentMethod] = useState<"cash" | "online" | "hyperpay">("cash");
 
   const inputCls = (name: string) =>
     `w-full px-4 py-3 rounded-xl border text-sm text-[#131b2e] bg-white outline-none transition-all focus:ring-2 focus:ring-[#131b2e]/10 focus:border-[#131b2e] placeholder:text-[#bbb] ${
@@ -102,6 +103,15 @@ export default function CheckoutPage() {
         return;
       }
 
+      if (paymentMethod === "hyperpay") {
+        const hpRes = await fetch(`${API_URL}/api/orders/${data.data._id}/hyperpay-session`, { method: "POST" });
+        const hpData = await hpRes.json();
+        if (!hpRes.ok) throw new Error(hpData.message || "فشل إنشاء جلسة HyperPay");
+        clearCart();
+        router.push(`/hyperpay-checkout?orderId=${data.data._id}&checkoutId=${hpData.checkoutId}`);
+        return;
+      }
+
       clearCart();
       router.push(`/order-success?id=${data.data._id}`);
     } catch (err: unknown) {
@@ -128,10 +138,10 @@ export default function CheckoutPage() {
             </div>
             <h1 className="text-2xl font-bold text-[#131b2e] mb-2">السلة فارغة</h1>
             <p className="text-[#888] text-sm mb-7">أضف منتجات للسلة أولاً لإتمام الطلب</p>
-            <a href="/products" className="inline-flex items-center gap-2 bg-[#131b2e] text-white px-8 py-3.5 rounded-full font-medium hover:bg-[#775a19] transition-all duration-300">
+            <Link href="/products" className="inline-flex items-center gap-2 bg-[#131b2e] text-white px-8 py-3.5 rounded-full font-medium hover:bg-[#775a19] transition-all duration-300">
               <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
               تصفح المنتجات
-            </a>
+            </Link>
           </div>
         </main>
         <Footer />
@@ -253,7 +263,33 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="flex flex-col gap-3">
-                  {/* Online Payment */}
+                  {/* HyperPay - مدى / فيزا / ماستركارد */}
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod("hyperpay")}
+                    className={`flex items-center justify-between rounded-2xl p-4 sm:p-5 border-2 transition-all ${
+                      paymentMethod === "hyperpay"
+                        ? "border-[#131b2e] bg-[#f7f9fb]"
+                        : "border-[#e8e8e8] bg-white hover:border-[#ccc]"
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-[#006341] flex items-center justify-center shrink-0">
+                        <span className="text-white font-bold text-sm">مدى</span>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-bold text-[#131b2e] text-sm sm:text-base">مدى / فيزا / ماستركارد</div>
+                        <div className="text-[#888] text-xs sm:text-sm mt-0.5">HyperPay — بطاقات البنوك السعودية</div>
+                      </div>
+                    </div>
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                      paymentMethod === "hyperpay" ? "border-[#131b2e]" : "border-[#ccc]"
+                    }`}>
+                      {paymentMethod === "hyperpay" && <div className="w-2.5 h-2.5 rounded-full bg-[#131b2e]" />}
+                    </div>
+                  </button>
+
+                  {/* MyFatoorah Online Payment */}
                   <button
                     type="button"
                     onClick={() => setPaymentMethod("online")}
@@ -293,10 +329,7 @@ export default function CheckoutPage() {
                       <div className="w-12 h-12 rounded-xl bg-[#f0f0f0] flex items-center justify-center shrink-0">
                         <span className="material-symbols-outlined text-[#131b2e] text-2xl">payments</span>
                       </div>
-                      <div className="text-right">
-                        <div className="font-bold text-[#131b2e] text-sm sm:text-base">الدفع عند الاستلام</div>
-                        <div className="text-[#888] text-xs sm:text-sm mt-0.5">ادفع نقداً عند استلام طلبك</div>
-                      </div>
+                     
                     </div>
                     <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
                       paymentMethod === "cash" ? "border-[#131b2e]" : "border-[#ccc]"

@@ -122,8 +122,7 @@ export default function CheckoutPage() {
   const getImageUrl = (img: string) =>
     img.startsWith("http") ? img : `${API_URL}/uploads/${img}`;
 
-  const vat = Math.round(totalPrice * 0.15);
-  const grandTotal = Math.round(totalPrice * 1.15);
+
 
   if (items.length === 0) {
     return (
@@ -327,7 +326,7 @@ export default function CheckoutPage() {
                 ) : (
                   <>
                     <span className="material-symbols-outlined">shopping_bag</span>
-                    تأكيد الطلب — {grandTotal.toLocaleString()} ر.س
+                    تأكيد الطلب — {totalPrice.toLocaleString()} ر.س
                   </>
                 )}
               </button>
@@ -371,16 +370,12 @@ export default function CheckoutPage() {
                     <span>{totalPrice.toLocaleString()} ر.س</span>
                     <span>المجموع الفرعي</span>
                   </div>
-                  <div className="flex justify-between text-sm text-[#666]">
-                    <span>{vat.toLocaleString()} ر.س</span>
-                    <span>ضريبة القيمة المضافة (15%)</span>
-                  </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-[#0d9488] font-medium">مجاني</span>
                     <span className="text-[#666]">الشحن</span>
                   </div>
                   <div className="flex justify-between items-center pt-3 border-t border-[#f0f0f0]">
-                    <span className="text-xl font-bold text-[#131b2e]">{grandTotal.toLocaleString()} ر.س</span>
+                    <span className="text-xl font-bold text-[#131b2e]">{totalPrice.toLocaleString()} ر.س</span>
                     <span className="font-bold text-[#131b2e]">الإجمالي</span>
                   </div>
                 </div>
@@ -407,7 +402,7 @@ export default function CheckoutPage() {
           ) : (
             <>
               <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
-              تأكيد الطلب — {grandTotal.toLocaleString()} ر.س
+              تأكيد الطلب — {totalPrice.toLocaleString()} ر.س
             </>
           )}
         </button>

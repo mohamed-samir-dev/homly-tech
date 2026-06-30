@@ -11,8 +11,7 @@ export default function CartPage() {
   const getImageUrl = (img: string) =>
     img.startsWith("http") ? img : `${API_URL}/uploads/${img}`;
 
-  const vat = Math.round(totalPrice * 0.15);
-  const grandTotal = Math.round(totalPrice * 1.15);
+
 
   if (items.length === 0) {
     return (
@@ -137,10 +136,6 @@ export default function CartPage() {
                     <span>{totalPrice.toLocaleString()} ر.س</span>
                     <span>المجموع الفرعي</span>
                   </div>
-                  <div className="flex justify-between text-sm text-[#666]">
-                    <span>{vat.toLocaleString()} ر.س</span>
-                    <span>ضريبة القيمة المضافة (15%)</span>
-                  </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-[#0d9488] font-medium">مجاني</span>
                     <span className="text-[#666]">الشحن</span>
@@ -149,7 +144,7 @@ export default function CartPage() {
 
                 <div className="flex justify-between items-center py-5">
                   <span className="text-xl font-bold text-[#131b2e]">
-                    {grandTotal.toLocaleString()} ر.س
+                    {totalPrice.toLocaleString()} ر.س
                   </span>
                   <span className="text-base font-semibold text-[#131b2e]">الإجمالي</span>
                 </div>
@@ -180,8 +175,8 @@ export default function CartPage() {
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-[#eee] px-4 py-3 z-50" dir="rtl">
         <div className="flex items-center gap-3">
           <div className="flex-1">
-            <p className="text-xs text-[#888]">الإجمالي شامل الضريبة</p>
-            <span className="text-lg font-bold text-[#131b2e]">{grandTotal.toLocaleString()} ر.س</span>
+            <p className="text-xs text-[#888]">الإجمالي</p>
+            <span className="text-lg font-bold text-[#131b2e]">{totalPrice.toLocaleString()} ر.س</span>
           </div>
           <a
             href="/checkout"

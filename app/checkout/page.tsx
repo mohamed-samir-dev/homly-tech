@@ -45,7 +45,7 @@ export default function CheckoutPage() {
   const [error, setError] = useState("");
   const [form, setForm] = useState({ customerName: "", phone: "", address: "", city: "الرياض", notes: "" });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-  const [paymentMethod, setPaymentMethod] = useState<"cash" | "online" | "hyperpay">("cash");
+  const [paymentMethod, setPaymentMethod] = useState<"online" | "hyperpay">("hyperpay");
 
   const inputCls = (name: string) =>
     `w-full px-4 py-3 rounded-xl border text-sm text-[#131b2e] bg-white outline-none transition-all focus:ring-2 focus:ring-[#131b2e]/10 focus:border-[#131b2e] placeholder:text-[#bbb] ${
@@ -88,7 +88,7 @@ export default function CheckoutPage() {
           address: `${form.city} - ${form.address}`,
           notes: form.notes,
           items: items.map((i) => ({ productId: i.productId, quantity: i.quantity })),
-          paymentMethod: paymentMethod === "online" ? "online" : "cash_on_delivery",
+          paymentMethod: paymentMethod === "online" ? "online" : "hyperpay",
         }),
       });
       const data = await res.json();
@@ -112,8 +112,6 @@ export default function CheckoutPage() {
         return;
       }
 
-      clearCart();
-      router.push(`/order-success?id=${data.data._id}`);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "حدث خطأ غير متوقع");
     } finally {
@@ -315,28 +313,6 @@ export default function CheckoutPage() {
                     </div>
                   </button>
 
-                  {/* Cash */}
-                  <button
-                    type="button"
-                    onClick={() => setPaymentMethod("cash")}
-                    className={`flex items-center justify-between rounded-2xl p-4 sm:p-5 border-2 transition-all ${
-                      paymentMethod === "cash"
-                        ? "border-[#131b2e] bg-[#f7f9fb]"
-                        : "border-[#e8e8e8] bg-white hover:border-[#ccc]"
-                    }`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-[#f0f0f0] flex items-center justify-center shrink-0">
-                        <span className="material-symbols-outlined text-[#131b2e] text-2xl">payments</span>
-                      </div>
-                     
-                    </div>
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                      paymentMethod === "cash" ? "border-[#131b2e]" : "border-[#ccc]"
-                    }`}>
-                      {paymentMethod === "cash" && <div className="w-2.5 h-2.5 rounded-full bg-[#131b2e]" />}
-                    </div>
-                  </button>
                 </div>
               </div>
 

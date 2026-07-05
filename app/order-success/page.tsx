@@ -321,6 +321,76 @@ function Invoice({ order, payMethod }: { order: Order; payMethod: string }) {
 }
 
 // ────────────────────────────────────────────────
+//  صفحة الدفع قيد التحقق (بدل الفشل المباشر)
+// ────────────────────────────────────────────────
+function PendingVerificationPage({ orderId }: { orderId: string | null }) {
+  const router = useRouter();
+  return (
+    <main dir="rtl" className="min-h-[80vh] flex items-center justify-center px-4 bg-[#f7f9fb]">
+      <div className="max-w-[480px] w-full text-center">
+        <div className="relative w-28 h-28 mx-auto mb-6">
+          <div className="absolute inset-0 rounded-full bg-amber-100 animate-pulse opacity-50" />
+          <div className="relative w-28 h-28 rounded-full bg-amber-100 flex items-center justify-center">
+            <span className="material-symbols-outlined text-6xl text-amber-500">schedule</span>
+          </div>
+        </div>
+
+        <h1 className="text-3xl font-bold text-[#131b2e] mb-3">جارٍ التحقق من الدفع</h1>
+        <p className="text-[#888] text-base mb-2 leading-relaxed">
+          تم استلام طلبك وجارٍ التحقق من عملية الدفع مع البنك.
+        </p>
+        <p className="text-[#888] text-sm mb-6">
+          سيتم تأكيد طلبك تلقائياً خلال دقائق. لا تقلق، إذا تم الخصم من حسابك فسيتم تأكيد الطلب أو إرجاع المبلغ.
+        </p>
+
+        {orderId && (
+          <p className="text-sm text-[#aaa] mb-8 font-mono bg-white border border-[#e8e8e8] inline-block px-4 py-2 rounded-xl">
+            رقم الطلب: {orderId}
+          </p>
+        )}
+
+        <div className="bg-white border border-[#e8e8e8] rounded-2xl p-5 mb-7 text-right" style={{ boxShadow: "0 2px 16px rgba(19,27,46,0.05)" }}>
+          <p className="text-sm font-bold text-[#131b2e] mb-3 flex items-center gap-2">
+            <span className="material-symbols-outlined text-[18px] text-[#0d9488]">info</span>
+            ماذا يحدث الآن؟
+          </p>
+          <ul className="flex flex-col gap-2">
+            {[
+              "نظامنا يتحقق من حالة الدفع مع البنك تلقائياً",
+              "إذا تم الخصم بنجاح سيتم تأكيد طلبك خلال 5 دقائق",
+              "إذا لم يتم الخصم فلن يتأثر حسابك",
+              "يمكنك التواصل معنا إذا لم يتم التأكيد خلال ساعة",
+            ].map((item) => (
+              <li key={item} className="flex items-center gap-2 text-sm text-[#666]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#0d9488] shrink-0" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-3">
+          <button
+            onClick={() => router.push("/")}
+            className="flex-1 flex items-center justify-center gap-2 bg-[#131b2e] text-white py-4 rounded-2xl font-bold hover:bg-[#775a19] transition-all text-sm"
+          >
+            <span className="material-symbols-outlined text-[18px]">home</span>
+            العودة للرئيسية
+          </button>
+          <a
+            href="/contact"
+            className="flex-1 flex items-center justify-center gap-2 border-2 border-[#e8e8e8] text-[#131b2e] py-4 rounded-2xl font-bold hover:border-[#131b2e] transition-all text-sm"
+          >
+            <span className="material-symbols-outlined text-[18px]">support_agent</span>
+            تواصل معنا
+          </a>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+// ────────────────────────────────────────────────
 //  صفحة الفشل
 // ────────────────────────────────────────────────
 function FailurePage({ orderId }: { orderId: string | null }) {
@@ -406,7 +476,7 @@ function OrderResultContent() {
   const invoiceId = searchParams.get("invoiceId");
   const resourcePath = searchParams.get("resourcePath");
 
-  const [status, setStatus] = useState<"loading" | "paid" | "failed" | "cash">(
+  const [status, setStatus] = useState<"loading" | "paid" | "failed" | "cash" | "pending_verification">(
     verify === "mf" || verify === "hyperpay" ? "loading" : "cash"
   );
   const [order, setOrder] = useState<Order | null>(null);
@@ -427,24 +497,33 @@ function OrderResultContent() {
     if (verify === "mf") {
       const id = invoiceId || searchParams.get("InvoiceId") || searchParams.get("paymentId");
       fetch(`${API_URL}/api/orders/${orderId}/verify-payment?invoiceId=${id}`)
-        .then((r) => r.json())
-        .then((d) => setStatus(d.success ? "paid" : "failed"))
-        .catch(() => setStatus("failed"));
+        .then((r) => r.json().then((d) => ({ status: r.status, data: d })))
+        .then(({ status: httpStatus, data: d }) => {
+          if (d.success) setStatus("paid");
+          else if (httpStatus === 202 || d.pending) setStatus("pending_verification");
+          else setStatus("failed");
+        })
+        .catch(() => setStatus("pending_verification"));
       return;
     }
 
     if (verify === "hyperpay") {
       const rp = resourcePath || searchParams.get("resourcePath");
-      if (!rp) { setStatus("failed"); return; }
+      if (!rp) { setStatus("pending_verification"); return; }
       fetch(`${API_URL}/api/orders/${orderId}/verify-hyperpay?resourcePath=${encodeURIComponent(rp)}`)
-        .then((r) => r.json())
-        .then((d) => setStatus(d.success ? "paid" : "failed"))
-        .catch(() => setStatus("failed"));
+        .then((r) => r.json().then((d) => ({ status: r.status, data: d })))
+        .then(({ status: httpStatus, data: d }) => {
+          if (d.success) setStatus("paid");
+          else if (httpStatus === 202 || d.pending) setStatus("pending_verification");
+          else setStatus("failed");
+        })
+        .catch(() => setStatus("pending_verification"));
     }
   }, [orderId, verify, invoiceId, resourcePath]);
 
   if (status === "loading") return <LoadingScreen />;
   if (status === "failed") return <FailurePage orderId={orderId} />;
+  if (status === "pending_verification") return <PendingVerificationPage orderId={orderId} />;
 
   // cash أو paid — عرض الفاتورة
   const payMethod = status === "paid" ? "online" : "cash";

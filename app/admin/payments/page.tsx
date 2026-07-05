@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -18,6 +19,7 @@ type Transaction = {
 type Stats = { pending: number; paid: number; failed: number; total: number };
 
 export default function PaymentsAdminPage() {
+  const router = useRouter();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
@@ -25,9 +27,10 @@ export default function PaymentsAdminPage() {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   useEffect(() => {
-    const t = localStorage.getItem("admin_token") || prompt("أدخل توكن الأدمن:");
-    if (t) { setToken(t); localStorage.setItem("admin_token", t); }
-  }, []);
+    const t = localStorage.getItem("admin_token");
+    if (!t) { router.push("/admin/login"); return; }
+    setToken(t);
+  }, [router]);
 
   const headers = { "Content-Type": "application/json", Authorization: `Bearer ${token}` };
 

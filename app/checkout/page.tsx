@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { Suspense } from "react";
 import { useCart } from "../context/CartContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -38,14 +39,22 @@ function Field({
   );
 }
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const { items, totalPrice, clearCart } = useCart();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({ customerName: "", phone: "", address: "", city: "الرياض", notes: "" });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [paymentMethod, setPaymentMethod] = useState<"online" | "hyperpay">("hyperpay");
+
+  useEffect(() => {
+    const errorParam = searchParams.get("error");
+    if (errorParam === "payment_failed") {
+      setError("فشلت عملية الدفع. يرجى التحقق من بيانات البطاقة والمحاولة مرة أخرى.");
+    }
+  }, [searchParams]);
 
   const inputCls = (name: string) =>
     `w-full px-4 py-3 rounded-xl border text-sm text-[#131b2e] bg-white outline-none transition-all focus:ring-2 focus:ring-[#131b2e]/10 focus:border-[#131b2e] placeholder:text-[#bbb] ${
@@ -410,5 +419,13 @@ export default function CheckoutPage() {
 
       <Footer />
     </>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-10 h-10 border-4 border-[#131b2e] border-t-transparent rounded-full animate-spin" /></div>}>
+      <CheckoutContent />
+    </Suspense>
   );
 }

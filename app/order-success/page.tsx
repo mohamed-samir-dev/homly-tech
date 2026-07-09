@@ -495,7 +495,35 @@ function OrderResultContent() {
     if (!orderId) return;
 
     if (verify === "mf") {
+      const errorStatus = searchParams.get("status");
       const id = invoiceId || searchParams.get("InvoiceId") || searchParams.get("paymentId");
+
+      // If no invoiceId and status=error, show failure immediately
+      if (!id && errorStatus === "error") {
+        setStatus("failed");
+        return;
+      }
+
+      // If no invoiceId, try to get it from order data then verify
+      if (!id) {
+        fetch(`${API_URL}/api/orders/${orderId}/receipt`)
+          .then((r) => r.json())
+          .then((d) => {
+            const mfId = d.data?.mfInvoiceId;
+            if (!mfId) { setStatus("failed"); return; }
+            return fetch(`${API_URL}/api/orders/${orderId}/verify-payment?invoiceId=${mfId}`)
+              .then((r) => r.json().then((dd) => ({ status: r.status, data: dd })));
+          })
+          .then((result) => {
+            if (!result) return;
+            if (result.data.success) setStatus("paid");
+            else if (result.status === 202 || result.data.pending) setStatus("pending_verification");
+            else setStatus("failed");
+          })
+          .catch(() => setStatus("failed"));
+        return;
+      }
+
       fetch(`${API_URL}/api/orders/${orderId}/verify-payment?invoiceId=${id}`)
         .then((r) => r.json().then((d) => ({ status: r.status, data: d })))
         .then(({ status: httpStatus, data: d }) => {

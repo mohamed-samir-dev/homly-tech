@@ -107,7 +107,8 @@ function CheckoutContent() {
         const mfRes = await fetch(`${API_URL}/api/orders/${data.data._id}/myfatoorah-session`, { method: "POST" });
         const mfData = await mfRes.json();
         if (!mfRes.ok) throw new Error(mfData.message || "فشل إنشاء جلسة الدفع");
-        clearCart();
+        // Save orderId to clear cart after successful payment
+        localStorage.setItem("pendingOrderId", data.data._id);
         window.location.href = mfData.payUrl;
         return;
       }
@@ -116,7 +117,8 @@ function CheckoutContent() {
         const hpRes = await fetch(`${API_URL}/api/orders/${data.data._id}/hyperpay-session`, { method: "POST" });
         const hpData = await hpRes.json();
         if (!hpRes.ok) throw new Error(hpData.message || "فشل إنشاء جلسة HyperPay");
-        clearCart();
+        // Save orderId to clear cart after successful payment
+        localStorage.setItem("pendingOrderId", data.data._id);
         router.push(`/hyperpay-checkout?orderId=${data.data._id}&checkoutId=${hpData.checkoutId}`);
         return;
       }
